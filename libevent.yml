@@ -9,6 +9,12 @@
     libevent_dir: "libevent-{{ libevent_version }}-stable"
 
   tasks:
+    - name: remove old version
+      become: yes
+      yum: pkg={{item}} state=absent
+      with_items:
+        - libevent
+
     - name: create libevent src dir
       file: path="{{ libevent_src_dir }}" state=directory
       become: yes
