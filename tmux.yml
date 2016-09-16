@@ -2,27 +2,29 @@
 
 - hosts: localhost
   vars:
-    src_dir: /usr/local/src
-    tmux_src_dir: "{{ src_dir }}/tmux"
+    tmux_src_dir: /home/hirano.masataka/tmux
     tmux_repo: git@github.com:tmux/tmux.git
     private_key: ~/.ssh/id_rsa
 
   tasks:
+    - name: Install dependencies
+      yum: pkg={{item}} state=latest
+      with_items:
+        - libevent-devel
+
     - name: clone tmux repository
-      git: repo="{{ tmux_repo }}" dest="{{ src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
-      become: yes
+      git: repo="{{ tmux_repo }}" dest="{{ tmux_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
 
     - name: auto generation
       command: sh autogen.sh chdir="{{ tmux_src_dir }}"
-      become: yes
 
     - name: configure
       command: ./configure chdir="{{ tmux_src_dir }}"
-      become: yes
+      # become: yes
 
     - name: make
       command: make chdir="{{ tmux_src_dir }}"
-      become: yes
+      # become: yes
 
     - name: make install
       command: make install chdir="{{ tmux_src_dir }}"
