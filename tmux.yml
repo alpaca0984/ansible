@@ -1,12 +1,19 @@
 ---
 
-- hosts: localhost
+- hosts: all
   vars:
     tmux_src_dir: /home/vagrant/tmux
     tmux_repo: git@github.com:tmux/tmux.git
     private_key: ~/.ssh/id_rsa
 
   tasks:
+    - name: install dependency
+      become: yes
+      yum: pkg={{ item }} state=present
+      with_items:
+        - git
+        - automake
+
     - name: clone tmux repository
       git: repo="{{ tmux_repo }}" dest="{{ tmux_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
 
@@ -15,11 +22,9 @@
 
     - name: configure
       command: ./configure chdir="{{ tmux_src_dir }}"
-      # become: yes
 
     - name: make
       command: make chdir="{{ tmux_src_dir }}"
-      # become: yes
 
     - name: make install
       command: make install chdir="{{ tmux_src_dir }}"
