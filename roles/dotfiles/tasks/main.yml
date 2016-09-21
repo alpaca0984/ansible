@@ -1,0 +1,5 @@
+- name: clone dotfiles repo
+  git: repo="{{ dotfiles_repo }}" dest="{{ dotfiles_src_dir }}" accept_hostkey=yes
+
+- name: run setup.sh
+  command: sh {{ dotfiles_src_dir }}/setup.sh
