@@ -1,0 +1,7 @@
+---
+
+libevent_version: 2.0.22
+src_dir: /usr/local/src
+libevent_dir: "libevent-{{ libevent_version }}-stable"
+libevent_src_dir: "{{ src_dir }}/{{ libevent_dir }}"
+libevent_src_url: "http://downloads.sourceforge.net/levent/libevent-{{ libevent_version }}-stable.tar.gz"
