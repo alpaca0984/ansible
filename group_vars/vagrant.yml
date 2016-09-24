@@ -1,3 +1,4 @@
 private_key: /home/vagrant/.ssh/id_rsa
+git_src_dir: /usr/local/src/git
 tmux_src_dir: /home/vagrant/tmux
 dotfiles_src_dir: /home/vagrant/dotfiles
