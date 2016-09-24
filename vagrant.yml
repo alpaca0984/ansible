@@ -1,5 +1,6 @@
 - hosts: vagrant
   roles:
+    - git
     - libevent
     - tmux
     - dotfiles
