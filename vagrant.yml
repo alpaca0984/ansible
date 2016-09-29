@@ -4,3 +4,5 @@
     - libevent
     - tmux
     - dotfiles
+    - cpanminus
+    - mysql_sandbox

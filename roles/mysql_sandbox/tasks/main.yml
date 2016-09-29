@@ -1,0 +1,8 @@
+- name: install MySQL Sandbox
+  command: cpanm MySQL::Sandbox
+
+- name: create mysql_sandbox directory
+  file: path="{{ mysql_sandbox_src_dir }}" state=directory
+
+- name: "download mysql {{ mysql_version }}"
+  get_url: url="{{ mysql_src_url }}" dest="{{ mysql_sandbox_src_dir }}"
