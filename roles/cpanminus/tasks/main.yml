@@ -1,0 +1,24 @@
+- name: clone cpanminus repository
+  become: yes
+  git: repo="{{ cpanminus_repo }}" dest="{{ cpanminus_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
+  environment:
+    PATH: /usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+
+- name: make
+  command: perl Makefile.PL chdir="{{ cpanminus_src_dir }}"
+  become: yes
+
+- name: make install
+  command: make install chdir="{{ cpanminus_src_dir }}"
+  become: yes
+
+- name: export cpanminus pathes
+  lineinfile: dest="{{ bash_profile }}" line="{{ item.line }}"
+  with_items:
+    - line: '# Pathes for cpanminus'
+    - line: export PERL_CPANM_OPT="--local-lib=$HOME/perl5"
+    - line: export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
+    - line: export PATH="$HOME/perl5/bin:$PATH"
+
+- name: install local lib module
+  command: cpanm local::lib
