@@ -27,3 +27,7 @@
 - name: make install
   command: make prefix=/usr/local install chdir="{{ git_src_dir }}"
   become: yes
+
+- name: create synbolic link
+  file: src=/usr/local/bin/git dest=/usr/bin/git state=link
+  become: yes
