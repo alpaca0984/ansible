@@ -1,8 +1,6 @@
 - name: clone cpanminus repository
   become: yes
   git: repo="{{ cpanminus_repo }}" dest="{{ cpanminus_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
-  environment:
-    PATH: /usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
 - name: make
   command: perl Makefile.PL chdir="{{ cpanminus_src_dir }}"
