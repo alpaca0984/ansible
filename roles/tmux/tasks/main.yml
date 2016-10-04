@@ -6,15 +6,21 @@
 
 - name: clone tmux repository
   git: repo="{{ tmux_repo }}" dest="{{ tmux_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
+  become: yes
+  environment:
+    PATH: /usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
 
 - name: auto generation
   command: sh autogen.sh chdir="{{ tmux_src_dir }}"
+  become: yes
 
 - name: configure
   command: ./configure chdir="{{ tmux_src_dir }}"
+  become: yes
 
 - name: make
   command: make chdir="{{ tmux_src_dir }}"
+  become: yes
 
 - name: make install
   command: make install chdir="{{ tmux_src_dir }}"

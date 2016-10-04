@@ -1,7 +1,7 @@
 private_key: /home/vagrant/.ssh/id_rsa
 git_src_dir: /usr/local/src/git
 cpanminus_src_dir: /usr/local/src/cpanminus
-tmux_src_dir: /home/vagrant/tmux
+tmux_src_dir: /usr/local/src/tmux
 dotfiles_src_dir: /home/vagrant/dotfiles
 bash_profile: /home/vagrant/.bash_profile
 mysql_sandbox_src_dir: /home/vagrant/opt/mysql
