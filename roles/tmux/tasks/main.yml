@@ -3,6 +3,7 @@
   yum: pkg="{{ item }}" state=present
   with_items:
     - automake
+    - ncurses-devel
 
 - name: clone tmux repository
   git: repo="{{ tmux_repo }}" dest="{{ tmux_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"

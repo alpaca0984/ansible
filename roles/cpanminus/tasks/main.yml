@@ -1,3 +1,9 @@
+- name: install dependency
+  become: yes
+  yum: pkg="{{ item }}" state=present
+  with_items:
+    - libselinux-python
+
 - name: clone cpanminus repository
   become: yes
   git: repo="{{ cpanminus_repo }}" dest="{{ cpanminus_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"

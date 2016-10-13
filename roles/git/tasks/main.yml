@@ -9,6 +9,7 @@
     - openssl-devel
     - zlib-devel
     - perl-ExtUtils-MakeMaker
+    - gcc
 
 - name: clone git repository
   become: yes
