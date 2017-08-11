@@ -1,34 +1,45 @@
-- name: install dependency
-  become: yes
-  yum: pkg="{{ item }}" state=present
-  with_items:
-    - git
-    - curl-devel
-    - expat-devel
-    - gettext-devel
-    - openssl-devel
-    - zlib-devel
-    - perl-ExtUtils-MakeMaker
-    - gcc
+---
+  - name: install dependency
+    yum:
+      pkg: "{{ item }}"
+      state: present
+    with_items:
+      - git
+      - curl-devel
+      - expat-devel
+      - gettext-devel
+      - openssl-devel
+      - zlib-devel
+      - perl-ExtUtils-MakeMaker
+      - gcc
 
-- name: clone git repository
-  become: yes
-  git: repo="{{ git_repo }}" dest="{{ git_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
+  - name: clone git repository
+    git:
+      repo: "{{ git_repo }}"
+      dest: "{{ git_src_dir }}"
+      accept_hostkey: yes
+      key_file: "{{ private_key }}"
 
-- name: remove old yum git package
-  become: yes
-  yum: pkg={{ item }} state=absent
-  with_items:
-    - git
+  - name: remove old yum git package
+    yum:
+      pkg: "{{ item }}"
+      state: absent
+    with_items:
+      - git
 
-- name: make
-  command: make prefix=/usr/local all chdir="{{ git_src_dir }}"
-  become: yes
+  - name: make
+    command: make prefix=/usr/local all
+    args:
+      chdir: "{{ git_src_dir }}"
 
-- name: make install
-  command: make prefix=/usr/local install chdir="{{ git_src_dir }}"
-  become: yes
+  - name: make install
+    command: make prefix=/usr/local install
+    args:
+      chdir: "{{ git_src_dir }}"
 
-- name: create synbolic link
-  file: src=/usr/local/bin/git dest=/usr/bin/git state=link
-  become: yes
+  - name: create synbolic link
+    file:
+      src: /usr/local/bin/git
+      dest: /usr/bin/git
+      state: link
+

@@ -1,28 +1,40 @@
-- name: install dependency
-  become: yes
-  yum: pkg="{{ item }}" state=present
-  with_items:
-    - libselinux-python
+---
+  - name: install dependency
+    yum:
+      pkg: "{{ item }}"
+      state: present
+    with_items:
+      - libselinux-python
 
-- name: clone cpanminus repository
-  become: yes
-  git: repo="{{ cpanminus_repo }}" dest="{{ cpanminus_src_dir }}" accept_hostkey=yes key_file="{{ private_key }}"
+  - name: clone cpanminus repository
+    git:
+      repo: "{{ cpanminus_repo }}"
+      dest: "{{ cpanminus_src_dir }}"
+      accept_hostkey: yes
+      key_file: "{{ private_key }}"
 
-- name: make
-  command: perl Makefile.PL chdir="{{ cpanminus_src_dir }}"
-  become: yes
+  - name: make
+    command: perl Makefile.PL
+    args:
+      chdir: "{{ cpanminus_src_dir }}"
 
-- name: make install
-  command: make install chdir="{{ cpanminus_src_dir }}"
-  become: yes
+  - name: make install
+    command: make install
+    args:
+      chdir: "{{ cpanminus_src_dir }}"
 
-- name: export cpanminus pathes
-  lineinfile: dest="{{ bash_profile }}" line="{{ item.line }}"
-  with_items:
-    - line: '# Pathes for cpanminus'
-    - line: export PERL_CPANM_OPT="--local-lib=$HOME/perl5"
-    - line: export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
-    - line: export PATH="$HOME/perl5/bin:$PATH"
+  - name: export cpanminus pathes
+    lineinfile:
+      dest: "{{ bash_profile }}"
+      line: "{{ item.line }}"
+    with_items:
+      - line: '# Pathes for cpanminus'
+      - line: export PERL_CPANM_OPT="--local-lib=$HOME/perl5"
+      - line: export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
+      - line: export PATH="$HOME/perl5/bin:$PATH"
 
-- name: install local lib module
-  command: cpanm local::lib
+  - name: install local lib module
+    command: cpanm local::lib
+    become: true
+    become_user: vagrant
+

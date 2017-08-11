@@ -1,13 +1,28 @@
-- name: install dependency
-  become: yes
-  yum: pkg="{{ item }}" state=present
-  with_items:
-    - zsh
-    - vim
-    - ctags
+---
+  - name: install dependency
+    yum:
+      pkg: "{{ item }}"
+      state: present
+    with_items:
+      - zsh
+      - vim
+      - ctags
 
-- name: clone dotfiles repo
-  git: repo="{{ dotfiles_repo }}" dest="{{ dotfiles_src_dir }}" accept_hostkey=yes
+  - name: clone dotfiles repo
+    git:
+      repo: "{{ dotfiles_repo }}"
+      dest: "{{ dotfiles_src_dir }}"
+      accept_hostkey: yes
 
-- name: run setup.sh
-  command: sh {{ dotfiles_src_dir }}/setup.sh
+  - name: change ownership
+    file:
+      path: "{{ dotfiles_src_dir }}"
+      owner: vagrant
+      group: vagrant
+      recurse: yes
+
+  - name: run setup.sh
+    shell: sh "{{ dotfiles_src_dir }}/setup.sh"
+    become: true
+    become_user: vagrant
+
