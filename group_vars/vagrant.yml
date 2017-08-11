@@ -5,3 +5,4 @@ tmux_src_dir: /usr/local/src/tmux
 dotfiles_src_dir: /home/vagrant/dotfiles
 bash_profile: /home/vagrant/.bash_profile
 mysql_sandbox_src_dir: /home/vagrant/opt/mysql
+
