@@ -1,8 +1,6 @@
 ---
   - name: install MySQL Sandbox
     command: cpanm MySQL::Sandbox
-    become: true
-    become_user: vagrant
 
   - name: create mysql_sandbox directory
     file:
