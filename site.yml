@@ -6,5 +6,6 @@
     - tmux
     - cpanminus
     - { role: mysql_sandbox, become: false }
+    - { role: fish, become: false }
     - { role: dotfiles, become: false }
 
