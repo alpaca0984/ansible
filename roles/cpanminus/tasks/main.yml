@@ -24,17 +24,15 @@
       chdir: "{{ cpanminus_src_dir }}"
 
   - name: export cpanminus pathes
-    lineinfile:
-      dest: "{{ bash_profile }}"
-      line: "{{ item.line }}"
-    with_items:
-      - line: '# Pathes for cpanminus'
-      - line: export PERL_CPANM_OPT="--local-lib=$HOME/perl5"
-      - line: export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
-      - line: export PATH="$HOME/perl5/bin:$PATH"
+    blockinfile:
+      path: "{{ bash_profile }}"
+      block: |
+        # Pathes for cpanminus
+        export PERL_CPANM_OPT="--local-lib=$HOME/perl5"
+        export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
+        export PATH="$HOME/perl5/bin:$PATH"
 
   - name: install local lib module
     command: cpanm local::lib
-    become: true
-    become_user: vagrant
+    become: false
 

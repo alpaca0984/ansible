@@ -1,5 +1,6 @@
 ---
   - name: install dependency
+    become: true
     yum:
       pkg: "{{ item }}"
       state: present
@@ -14,15 +15,6 @@
       dest: "{{ dotfiles_src_dir }}"
       accept_hostkey: yes
 
-  - name: change ownership
-    file:
-      path: "{{ dotfiles_src_dir }}"
-      owner: vagrant
-      group: vagrant
-      recurse: yes
-
   - name: run setup.sh
     shell: sh "{{ dotfiles_src_dir }}/setup.sh"
-    become: true
-    become_user: vagrant
 

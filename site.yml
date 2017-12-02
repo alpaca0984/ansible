@@ -1,10 +1,10 @@
-- hosts: vagrant
-  become: yes
+- hosts: devservers
+  become: true
   roles:
     - git
     - libevent
     - tmux
-    - dotfiles
     - cpanminus
     - { role: mysql_sandbox, become: false }
+    - { role: dotfiles, become: false }
 
