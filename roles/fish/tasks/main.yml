@@ -1,0 +1,29 @@
+---
+  - name: Download fish repo
+    become: true
+    get_url:
+      url: "{{ fish_repo }}"
+      dest: /etc/yum.repos.d
+
+  - name: Install fish-shell with dependency
+    become: true
+    yum:
+      pkg: "{{ item }}"
+      state: present
+    with_items:
+      - git
+      - fish
+
+  - name: Install fisherman
+    command: "curl -Lo {{ fisherman_src_dir }} --create-dirs {{ fisherman_repo }}"
+
+  - name: Install fzf plugin
+    git:
+      repo: "{{ fzf_repo }}"
+      dest: "{{ fzf_src_dir }}"
+      depth: 1
+      accept_hostkey: yes
+
+  - name: Setup fzf
+    command: "{{ fzf_src_dir }}/install --key-bindings --no-completion --no-update-rc"
+
