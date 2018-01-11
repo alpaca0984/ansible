@@ -14,8 +14,15 @@
       - git
       - fish
 
+  - name: Create fisherman source directory
+    file:
+      dest: "{{ fisherman_src_dir }}"
+      state: directory
+
   - name: Install fisherman
-    command: "curl -Lo {{ fisherman_src_dir }} --create-dirs {{ fisherman_repo }}"
+    get_url:
+      url: "{{ fisherman_repo }}"
+      dest: "{{ fisherman_src_dir }}"
 
   - name: Install fzf plugin
     git:

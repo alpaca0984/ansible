@@ -6,7 +6,7 @@ private_key: "/home/{{ ansible_ssh_user }}/.ssh/id_rsa"
 bash_profile: "/home/{{ ansible_ssh_user }}/.bash_profile"
 mysql_sandbox_src_dir: "/home/{{ ansible_ssh_user }}/opt/mysql"
 
-fisherman_src_dir: "/home/{{ ansible_ssh_user }}/.config/fish/functions/fisher.fish"
+fisherman_src_dir: "/home/{{ ansible_ssh_user }}/.config/fish/functions"
 fzf_src_dir: "/home/{{ ansible_ssh_user }}/.fzf"
 
 dotfiles_src_dir: "/home/{{ ansible_ssh_user }}/dotfiles"
