@@ -44,4 +44,3 @@
       src: /usr/local/bin/git
       dest: /usr/bin/git
       state: link
-
