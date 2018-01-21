@@ -1,7 +1,7 @@
 ---
-  - name: install dependency
+  - name: Install dependency
     yum:
-      pkg: "{{ item }}"
+      name: "{{ item }}"
       state: present
     with_items:
       - git
@@ -13,31 +13,33 @@
       - perl-ExtUtils-MakeMaker
       - gcc
 
-  - name: clone git repository
+  - name: Clone git repository
     git:
       repo: "{{ git_repo }}"
       dest: "{{ git_src_dir }}"
       accept_hostkey: yes
       key_file: "{{ private_key }}"
 
-  - name: remove old yum git package
+  - name: Remove old yum git package
     yum:
-      pkg: "{{ item }}"
+      name: git
       state: absent
-    with_items:
-      - git
 
-  - name: make
-    command: make prefix=/usr/local all
-    args:
+  - name: Execute make
+    make:
       chdir: "{{ git_src_dir }}"
+      target: all
+      params:
+        prefix: /usr/local
 
-  - name: make install
-    command: make prefix=/usr/local install
-    args:
+  - name: Execute make install
+    make:
       chdir: "{{ git_src_dir }}"
+      target: install
+      params:
+        prefix: /usr/local
 
-  - name: create synbolic link
+  - name: Create synbolic link
     file:
       src: /usr/local/bin/git
       dest: /usr/bin/git
