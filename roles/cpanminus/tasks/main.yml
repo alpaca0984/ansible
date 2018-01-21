@@ -1,29 +1,29 @@
 ---
-  - name: install dependency
+  - name: Install dependency
     yum:
-      pkg: "{{ item }}"
+      name: "{{ item }}"
       state: present
     with_items:
       - libselinux-python
 
-  - name: clone cpanminus repository
+  - name: Clone cpanminus repository
     git:
       repo: "{{ cpanminus_repo }}"
       dest: "{{ cpanminus_src_dir }}"
       accept_hostkey: yes
       key_file: "{{ private_key }}"
 
-  - name: make
+  - name: Execute make
     command: perl Makefile.PL
     args:
       chdir: "{{ cpanminus_src_dir }}"
 
-  - name: make install
-    command: make install
-    args:
+  - name: Execute make install
+    make:
       chdir: "{{ cpanminus_src_dir }}"
+      target: install
 
-  - name: export cpanminus pathes
+  - name: Export cpanminus pathes
     blockinfile:
       path: "{{ bash_profile }}"
       block: |
@@ -32,7 +32,7 @@
         export PERL5LIB="$HOME/perl5/lib/perl5/i386-linux-thread-multi:$HOME/perl5/lib/perl5"
         export PATH="$HOME/perl5/bin:$PATH"
 
-  - name: install local lib module
+  - name: Install local lib module
     command: cpanm local::lib
     become: false
 
