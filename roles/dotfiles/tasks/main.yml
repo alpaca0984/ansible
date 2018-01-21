@@ -1,20 +1,19 @@
 ---
-  - name: install dependency
+  - name: Install dependency
     become: true
     yum:
-      pkg: "{{ item }}"
+      name: "{{ item }}"
       state: present
     with_items:
       - zsh
       - vim
       - ctags
 
-  - name: clone dotfiles repo
+  - name: Clone dotfiles repo
     git:
       repo: "{{ dotfiles_repo }}"
       dest: "{{ dotfiles_src_dir }}"
       accept_hostkey: yes
 
-  - name: run setup.sh
+  - name: Run setup.sh
     shell: sh "{{ dotfiles_src_dir }}/setup.sh"
-
