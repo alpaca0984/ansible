@@ -1,47 +1,35 @@
 ---
-  - name: remove old yum libevent package
+  - name: Remove old yum libevent package
     yum:
-      pkg: "{{ item }}"
+      name: "{{ item }}"
       state: absent
     with_items:
       - libevent
       - libevent-devel
       - libevent-header
 
-  - name: create libevent src dir
-    file:
-      path: "{{ libevent_src_dir }}"
-      state: directory
-
-  - name: download libevent src
-    get_url:
-      url: "{{ libevent_src_url }}"
+  - name: Download libevent and unarchive it
+    unarchive:
+      src: "{{ libevent_src_url }}"
       dest: "{{ src_dir }}"
-      validate_certs: no
+      remote_src: yes
 
-  - name: extract src file
-    command: tar zxvf {{ libevent_dir }}.tar.gz
-    args:
-      chdir: "{{ src_dir }}"
-
-  - name: configure
+  - name: Configure
     command: ./configure
     args:
       chdir: "{{ libevent_src_dir }}"
 
-  - name: make
-    command: make
-    args:
+  - name: Execute make
+    make:
       chdir: "{{ libevent_src_dir }}"
 
-  - name: make install
-    command: make install
-    args:
+  - name: Execute make install
+    make:
       chdir: "{{ libevent_src_dir }}"
+      target: install
 
-  - name: create synbolic link
+  - name: Create synbolic link
     file:
       src: /usr/local/lib/libevent-2.0.so.5
       dest: /usr/lib64/libevent-2.0.so.5
       state: link
-
